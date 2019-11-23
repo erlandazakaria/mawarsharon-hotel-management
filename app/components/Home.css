@@ -1,14 +1,109 @@
-.container {
-  position: absolute;
-  top: 30%;
-  left: 10px;
+.dashboard-header {
+  text-align: center;
+  height: 10%;
+}
+.left-menu {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+  width: 20%;
+  float: left;
+  border-right: 1px solid sienna;
+}
+
+.left-menu-button {
+  height: 40px;
+  margin: 20px 20px 0 20px;
+  background-color: silver;
+  text-align: center;
+  line-height: 40px;
+  color: black;
+}
+
+.dashboard-content {
+  position: relative;
+  padding-top: 50px;
+  box-sizing: border-box;
+  border: 1px solid lime;
+  max-width: 75%;
+  display: grid;
+  grid-template-columns: repeat(9, 80px);
+  grid-template-rows: repeat(4, 50px 80px);
+  gap: 3px 20px;
+  padding-left: 15px;
+}
+
+.standard-title {
+  grid-row: 1;
+  text-align: center;
+  padding-top: 15px;
+}
+
+.deluxe-title {
+  grid-row: 3;
+  padding-top: 15px;
   text-align: center;
 }
 
-.container h2 {
-  font-size: 5rem;
+.twin-title {
+  grid-row: 5;
+  padding-top: 15px;
+  text-align: center;
 }
 
-.container a {
-  font-size: 1.4rem;
+.triple-title {
+  grid-row: 7;
+  padding-top: 15px;
+  text-align: center;
+}
+
+.standard-box {
+  grid-row: 2;
+  text-align: center;
+  border: 1px solid white;
+  line-height: 80px;
+}
+
+.deluxe-box {
+  grid-row: 4;
+  text-align: center;
+  line-height: 80px;
+  border: 1px solid white;
+}
+
+.twin-box {
+  grid-row: 6;
+  border: 1px solid white;
+  text-align: center;
+  line-height: 80px;
+}
+
+.triple-box {
+  grid-row: 8;
+  border: 1px solid white;
+  text-align: center;
+  line-height: 80px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.booking-date-container {
+  position: absolute;
+  width: 300px;
+  height: 50px;
+}
+
+.booking-date-wrapper {
+  position: absolute;
+  bottom: 0;
+  height: 24px;
+  overflow: hidden;
+  background-color: yellow;
+}
+
+.booking-date {
+  float: left;
 }

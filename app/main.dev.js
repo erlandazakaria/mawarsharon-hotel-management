@@ -10,10 +10,11 @@
  *
  * @flow
  */
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
+import Connection from './containers/Connection';
 
 export default class AppUpdater {
   constructor() {
@@ -96,4 +97,23 @@ app.on('ready', async () => {
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
   new AppUpdater();
+});
+
+ipcMain.on('select-all-message', (event, arg) => {
+  let sql = `SELECT * FROM ${arg}`;
+
+  let selectAllPromise = new Promise(function(resolve, reject){
+    Connection.query(sql, 
+    function (error, rows, fields){
+      if(error){
+        console.log(error)
+        reject(error)
+      } else {
+        resolve({table: arg, rows: rows});
+      }
+    });
+  })
+  selectAllPromise.then((rows) => {
+    event.sender.send('select-all-reply', rows)
+  })
 });
