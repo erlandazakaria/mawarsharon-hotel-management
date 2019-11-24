@@ -3,11 +3,12 @@ import React, { Component } from 'react';
 import { ipcRenderer } from 'electron';
 import { Link } from 'react-router-dom';
 import routes from '../constants/routes';
-import { countDay, generateMonth, generateYear } from './Date';
+import { countDay, generateMonth, generateYear, generateDateFormat, checkBookDate } from './Date';
 
 import styles from './Home.css';
 
 import LoginPage from './LoginPage';
+import BookingPopup from './BookingPopup';
 
 type Props = {};
 
@@ -23,6 +24,11 @@ export default class Home extends Component<Props> {
       day: null,
       month: null,
       year: null
+    },
+    bookingPopup: {
+      open: false,
+      id_room: 0,
+      pickedDate: null
     }
   }
 
@@ -52,10 +58,54 @@ export default class Home extends Component<Props> {
     })
   }
 
-  pickDay = (day) => {
-    console.log('asd')
+  checkRoomAvail = (id) => {
+    const { bookings, pickedDate} = this.state;
+    const date = generateDateFormat(pickedDate.day, pickedDate.month, pickedDate.year)
+    let isCheckOutDay = false;
+    const findBooking = bookings.filter(b => {
+      if(b.booking_room === id) { 
+        let roomStatus = checkBookDate(date, b.booking_checkin, b.booking_checkout)
+        if(!roomStatus.avail) {
+          if(roomStatus.lastDay) {
+            isCheckOutDay = true
+          }
+          return b
+        } 
+      }
+    });
+    if(findBooking && findBooking[0]) {
+      if(isCheckOutDay) {
+        return {backgroundColor: 'orange', status: 2, book: findBooking[0]}
+      } else {
+        return {backgroundColor: 'red', status: 0, book: findBooking[0]}
+      }
+    } else {
+      return {backgroundColor: 'green', status: 1, book: {}}
+    }
+  }
+
+  showBookingPopup = (room, boxStatus) => {
+    const {pickedDate} = this.state;
+    const date = generateDateFormat(pickedDate.day, pickedDate.month, pickedDate.year)
+
     this.setState({
-      pickedDate: day
+      bookingPopup: {
+        open: true,
+        pickedDate: date,
+        status: boxStatus.status,
+        book: boxStatus.book,
+        room: room
+      }
+    })
+  }
+
+  closeBookingPopup = ()=> {
+    this.setState({
+      bookingPopup: {
+        open: false, 
+        id_room: 0,
+        pickedDate: null
+      }
     })
   }
 
@@ -93,24 +143,32 @@ export default class Home extends Component<Props> {
         <div className="triple-title cursor-pointer">Triple</div>
         {rooms.map(r => {
           if(r.room_type === "Standard Room") {
+            const boxStatus = this.checkRoomAvail(r.id_room);
+            const boxColor = {backgroundColor: boxStatus.backgroundColor};
             return ( 
-              <div className="standard-box cursor-pointer" key={r.id_room}
-                onClick={() => this.showBookingPopUp(r.id_room)}>{r.room_name}</div> 
+              <div className="standard-box cursor-pointer" key={r.id_room} style={boxColor}
+                onClick={() => this.showBookingPopup(r, boxStatus)}>{r.room_name}</div> 
             );
           } else if(r.room_type === "Deluxe Room") {
+            const boxStatus = this.checkRoomAvail(r.id_room);
+            const boxColor = {backgroundColor: boxStatus.backgroundColor};
             return ( 
-              <div className="deluxe-box cursor-pointer" key={r.id_room}
-                onClick={() => this.showBookingPopUp(r.id_room)}>{r.room_name}</div> 
+              <div className="deluxe-box cursor-pointer" key={r.id_room} style={boxColor}
+                onClick={() => this.showBookingPopup(r, boxStatus)}>{r.room_name}</div> 
             );
           } else if(r.room_type === "Twin's Room") {
+            const boxStatus = this.checkRoomAvail(r.id_room);
+            const boxColor = {backgroundColor: boxStatus.backgroundColor};
             return ( 
-              <div className="twin-box cursor-pointer" key={r.id_room}
-                onClick={() => this.showBookingPopUp(r.id_room)}>{r.room_name}</div> 
+              <div className="twin-box cursor-pointer" key={r.id_room} style={boxColor}
+                onClick={() => this.showBookingPopup(r, boxStatus)}>{r.room_name}</div> 
             );
           } else if(r.room_type === "Triple Bed") {
+            const boxStatus = this.checkRoomAvail(r.id_room);
+            const boxColor = {backgroundColor: boxStatus.backgroundColor};
             return ( 
-              <div className="triple-box cursor-pointer" key={r.id_room}
-                onClick={() => this.showBookingPopUp(r.id_room)}>{r.room_name}</div> 
+              <div className="triple-box cursor-pointer" key={r.id_room} style={boxColor}
+                onClick={() => this.showBookingPopup(r, boxStatus)}>{r.room_name}</div> 
             );
           }
         })}
@@ -167,6 +225,7 @@ export default class Home extends Component<Props> {
             </div>
           </div>
         </div>
+        {/* <div>MERAH = BOOKED ORANGE= CHECKOUT GREEN=AVAILABLE</div> */}
       </div>
     );
   }
@@ -182,13 +241,14 @@ export default class Home extends Component<Props> {
   }
 
   render() {
-    const { isLoggedIn, users } = this.state;
+    const { isLoggedIn, users, bookingPopup } = this.state;
     console.log(this.state)
     return (
       <React.Fragment>
       {!isLoggedIn ? 
         this.renderDashboard()
       : <LoginPage users={users} loggingIn={(user) => this.loggingIn(user)} />}
+      {bookingPopup.open ? <BookingPopup detail={bookingPopup} closeBookingPopup={this.closeBookingPopup} /> : null}
       </React.Fragment>
     );
   }

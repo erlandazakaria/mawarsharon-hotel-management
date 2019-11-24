@@ -1,0 +1,201 @@
+.booking-popup-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: -2%;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    box-sizing: border-box;
+}
+
+.booking-popup-close {
+    position: absolute;
+    top: 15%;
+    right: 20%;
+    z-index: 2;
+    padding: 0.25% 0.5%;
+    font-size: 18px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.booking-popup-container {
+    position: absolute;
+    width: 60%;
+    height: 70%;
+    top: 15%;
+    left: 20%;
+    z-index: 2;
+    background-color: white;
+    border-radius: 20px;
+}
+
+.booking-popup-header {
+    height: 5%;
+    background-color: #f40202;
+    line-height: 35px;
+    text-align: center;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    font-weight: 800;
+}
+
+.booking-popup-date {
+    height: 5%;
+    line-height: 30px;
+    padding-left: 2%;
+    color: black;
+    font-weight: 800;
+}
+
+.booking-popup-content {
+    padding: 2%;
+    display: grid;
+    grid-template:
+    "content_checkin content_checkout";
+    grid-template-columns: 50% 50%;
+    color: black;
+}
+
+/* checkin */
+
+.booking-popup-content-checkin {
+    grid-area: content_checkin;
+    height: 550px;
+    overflow: auto;
+}
+
+.booking-popup-content-checkin-title {
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+.booking-popup-content-checkin-detail td:first-child{
+    width: 100px;
+}
+.booking-popup-content-checkin-detail td:last-child input{
+    width: 250px;
+    margin-left: 10px;
+}
+
+.booking-popup-content-checkin-addons {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.tambahan {
+    font-weight: 800;
+}
+
+.booking-popup-content-checkin-addons td input{
+    width: 100px;
+}
+
+.booking-popup-content-checkin-total {
+    font-weight: 800;
+}
+
+.booking-popup-content-checkin-button-c {
+    margin-top: 20px;
+}
+
+.booking-popup-content-checkin-button-add {
+    background-color: #f40202;
+    display: inline-block;
+    width: auto;
+    padding: 5px 20px;
+    border-radius: 15px;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+}
+
+.booking-popup-content-checkin-button-save {
+    background-color: #f40202;
+    display: inline-block;
+    width: auto;
+    padding: 5px 20px;
+    border-radius: 15px;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.booking-popup-content-checkin-button-print {
+    background-color: #f40202;
+    display: inline-block;
+    width: auto;
+    padding: 5px 20px;
+    border-radius: 15px;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+/* checkout */
+
+.booking-popup-content-checkout {
+    grid-area: content_checkout;
+    height: 550px;
+    overflow: auto;
+}
+
+.booking-popup-content-checkout-title {
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+.booking-popup-content-checkout-detail td:first-child{
+    width: 100px;
+}
+.booking-popup-content-checkout-detail td:last-child input{
+    width: 250px;
+    margin-left: 10px;
+}
+
+.booking-popup-content-checkout-addons {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.booking-popup-content-checkout-addons td input{
+    width: 100px;
+}
+
+.booking-popup-content-checkout-total {
+    font-weight: 800;
+}
+
+.booking-popup-content-checkout-button-c {
+    margin-top: 20px;
+}
+
+.booking-popup-content-checkout-button-add {
+    background-color: #f40202;
+    display: inline-block;
+    width: auto;
+    padding: 5px 20px;
+    border-radius: 15px;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+}
+
+.booking-popup-content-checkout-button-save {
+    background-color: #f40202;
+    display: inline-block;
+    width: auto;
+    padding: 5px 20px;
+    border-radius: 15px;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.booking-popup-content-checkout-button-print {
+    background-color: #f40202;
+    display: inline-block;
+    width: auto;
+    padding: 5px 20px;
+    border-radius: 15px;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    margin-left: 10px;
+}

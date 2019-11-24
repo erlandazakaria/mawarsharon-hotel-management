@@ -1,6 +1,7 @@
 .dashboard-header {
   text-align: center;
   height: 10%;
+  color: #f40202;
 }
 .left-menu {
   box-sizing: border-box;
@@ -23,12 +24,11 @@
 
 .dashboard-content {
   position: relative;
-  padding-top: 50px;
+  padding-top: 80px;
   box-sizing: border-box;
-  border: 1px solid lime;
   max-width: 75%;
   display: grid;
-  grid-template-columns: repeat(9, 80px);
+  grid-template-columns: repeat(11, 80px);
   grid-template-rows: repeat(4, 50px 80px);
   gap: 3px 20px;
   padding-left: 15px;
@@ -36,26 +36,34 @@
 
 .standard-title {
   grid-row: 1;
-  text-align: center;
+  text-align: left;
   padding-top: 15px;
+  color: black;
+  font-weight: 800;
 }
 
 .deluxe-title {
   grid-row: 3;
   padding-top: 15px;
-  text-align: center;
+  text-align: left;
+  color: black;
+  font-weight: 800;
 }
 
 .twin-title {
   grid-row: 5;
   padding-top: 15px;
-  text-align: center;
+  text-align: left;
+  color: black;
+  font-weight: 800;
 }
 
 .triple-title {
   grid-row: 7;
   padding-top: 15px;
-  text-align: center;
+  text-align: left;
+  color: black;
+  font-weight: 800;
 }
 
 .standard-box {
@@ -94,6 +102,9 @@
   position: absolute;
   width: 300px;
   height: 50px;
+  color: black;
+  font-weight: 800;
+  margin-left: 15px;
 }
 
 .booking-date-wrapper {
@@ -101,7 +112,6 @@
   bottom: 0;
   height: 24px;
   overflow: hidden;
-  background-color: yellow;
 }
 
 .booking-date {
