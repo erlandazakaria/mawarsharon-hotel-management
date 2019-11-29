@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <mate charest="utf-8" />
+        <title>Hello world!</title>
+        <style>
+            table {
+                border: 1px solid black;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Daily Booking</h1>
+        {{#each bookings}}
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Invoice</td>
+                        <td>:</td>
+                        <td>{{this.id_book}}</td>
+                    </tr>
+                    <tr>
+                        <td>Room</td>
+                        <td>:</td>
+                        <td>{{this.booking_room}}</td>
+                    </tr>
+                    <tr>
+                        <td>Price</td>
+                        <td>:</td>
+                        <td>{{this.room_price}}</td>
+                    </tr>
+                    <tr>
+                        <td>NIK</td>
+                        <td>:</td>
+                        <td>{{this.booking_nik}}</td>
+                    </tr>
+                    <tr>
+                        <td>Name</td>
+                        <td>:</td>
+                        <td>{{this.booking_name}}</td>
+                    </tr>
+                    <tr>
+                        <td>Address</td>
+                        <td>:</td>
+                        <td>{{this.booking_address}}</td>
+                    </tr>
+                    <tr>
+                        <td>Phone</td>
+                        <td>:</td>
+                        <td>{{this.booking_phone}}</td>
+                    </tr>
+                    <tr>
+                        <td>Checkin</td>
+                        <td>:</td>
+                        <td>{{this.booking_checkin}}</td>
+                    </tr>
+                    <tr>
+                        <td>Checkout</td>
+                        <td>:</td>
+                        <td>{{this.booking_checkout}}</td>
+                    </tr>
+                    <tr>
+                        <td>Add Ons</td>
+                        <td>:</td>
+                        <td>{{this.booking_addons}}</td>
+                    </tr>
+                    <tr>
+                        <td>Total</td>
+                        <td>:</td>
+                        <td>{{this.booking_total}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+        {{/each}}
+    </body>
+</html>

@@ -61,7 +61,7 @@ export default class LoginPage extends Component<Props> {
 
     return (
       <div className="login-container" data-tid="container">
-        <div class="bodywrapper">
+        <div className="bodywrapper">
           <table>
               <tbody>
                   <tr>
@@ -71,9 +71,9 @@ export default class LoginPage extends Component<Props> {
                       <td>Password</td><td>:</td><td><input type="password" value={password} onChange={this.onPasswordChange} /></td>
                   </tr>
                   <tr>
-                      <td colspan="2"></td>
+                      <td colSpan="2"></td>
                       <td>
-                        <div class="login-button" onClick={this.onLoginSubmit}>Login</div>
+                        <div className="login-button" onClick={this.onLoginSubmit}>Login</div>
                         <div><span id="login-error"></span></div>
                       </td>
                   </tr>

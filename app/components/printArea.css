@@ -1,0 +1,131 @@
+header {
+    text-align: center;
+}
+
+h1 {
+    font-size: 20px !important;
+    font-weight: 700 !important;
+}
+h2 {
+    font-size: 18px !important;
+    font-weight: 500 !important;
+    color: black !important;
+}
+h3 {
+    font-size: 18px !important;
+    font-weight: 200 !important;
+}
+main {
+    margin-top: 20px !important;
+       
+}
+
+hr {
+    width: 95%;
+   border-top: black solid 5px !important;
+}
+.print-area-table {
+    margin: 40px 50px 30px 100px;
+    width: 670px;
+}
+.print-area-table th {
+    border: 1px solid black !important;
+    padding: 5px !important;
+}
+
+.print-area-table td {
+    border: 1px solid black !important;
+    padding: 5px !important;
+}
+
+.invoice-wrapper {
+    padding-left: 100px;
+    /* border: 1px solid black; */
+    float: left ;
+}
+.name-wrapper {
+    /* border: 1px solid black; */
+    float: right;
+    padding-right: 100px;
+}
+
+.tanggal-terima {
+    /* border: 1px solid black; */
+    float: left ;
+    margin-left: 100px;
+}
+.total-akhir {
+    /* border: 1px solid black; */
+    float: right;
+    padding-right: 115px;
+   
+}
+.petugas {
+    /* border: 1px solid black; */
+    float: left ;
+    margin-left: 100px;
+   
+}
+.dp-total {
+    /* border: 1px solid black; */
+    float: right;
+    padding-right: 140px;
+    
+}
+.hr2 {
+    width: 210px;
+    /* border-top: 1px solid black; */
+    float: right;
+    margin-right: 110px;
+}
+.nama-petugas {
+   /* border: 1px solid black; */
+    float: left ;
+    margin-left: 15px;
+}
+.total-bayar {
+   /* border: 1px solid black; */
+    float: right;
+    margin-right: -210px;
+    border: 1px solid red;
+}
+#invoice-itemPrice {
+    text-align: right;
+}
+#invoice-itemPrice span {
+    text-align: left;
+    display: block;
+    float: left;
+}
+#invoice-itemTotal {
+    text-align: right;
+}
+#invoice-itemTotal span {
+    text-align: left;
+    display: block;
+    float: left;
+}
+#invoice-sub {
+    text-align: right;
+}
+#invoice-sub span {
+    text-align: left;
+    display: block;
+    float: left;
+}
+#invoice-ppn {
+    text-align: right;
+}
+#invoice-ppn span {
+    text-align: left;
+    display: block;
+    float: left;
+}
+#invoice-total {
+    text-align: right;
+}
+#invoice-total span {
+    text-align: left;
+    display: block;
+    float: left;
+}

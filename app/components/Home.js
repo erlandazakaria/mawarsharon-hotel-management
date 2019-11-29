@@ -9,6 +9,8 @@ import styles from './Home.css';
 
 import LoginPage from './LoginPage';
 import BookingPopup from './BookingPopup';
+import PrintArea from './PrintArea';
+import Manage from './Manage';
 
 type Props = {};
 
@@ -29,7 +31,19 @@ export default class Home extends Component<Props> {
       open: false,
       id_room: 0,
       pickedDate: null
-    }
+    },
+    managePopup: {
+      open: false,
+      which: ''
+    },
+    alert: {
+      open: false,
+      content: ''
+    },
+    print: {
+      open: false,
+      id_book: 0,
+    },
   }
 
   componentDidMount() {
@@ -37,6 +51,30 @@ export default class Home extends Component<Props> {
       this.setState({
         [arg.table]: arg.rows,
       })
+    })
+    ipcRenderer.on('edit-booking-reply', (event, editArg) => {
+      if(editArg.affectedRows > 0) {
+        ipcRenderer.send('select-all-message', 'bookings');
+        this.setState({
+          alert: {open: true, content: 'BOOKING TERUPDATE'}
+        })
+      }
+    })
+    ipcRenderer.on('insert-booking-reply', (event, insertArg) => {
+      if(insertArg.affectedRows > 0) {
+        ipcRenderer.send('select-all-message', 'bookings');
+        this.setState({
+          alert: {open: true, content: 'TAMBAH BOOKING BERHASIL'}
+        })
+      }
+    })
+    ipcRenderer.on('delete-booking-reply', (event, deleteArg) => {
+      if(deleteArg.affectedRows > 0) {
+        ipcRenderer.send('select-all-message', 'bookings');
+        this.setState({
+          alert: {open: true, content: 'BOOKING BERHASIL DIHAPUS'}
+        })
+      }
     })
     ipcRenderer.send('select-all-message', 'users');
     ipcRenderer.send('select-all-message', 'rooms');
@@ -58,6 +96,37 @@ export default class Home extends Component<Props> {
     })
   }
 
+  loggingOut = () => {
+    this.setState({
+      loggedUser: {},
+      isLoggedIn: false,
+      bookingPopup: {
+        open: false,
+        id_room: 0,
+        pickedDate: null
+      },
+      managePopup: {
+        open: false,
+        which: ''
+      },
+      alert: {
+        open: false,
+        content: ''
+      }
+    })
+  }
+
+  onPrint = (id) => {
+    this.setState({
+      print: {
+        open: true,
+        id_book: id
+      }
+    }, () => {
+      window.print();
+    })
+  }
+
   checkRoomAvail = (id) => {
     const { bookings, pickedDate} = this.state;
     const date = generateDateFormat(pickedDate.day, pickedDate.month, pickedDate.year)
@@ -69,18 +138,21 @@ export default class Home extends Component<Props> {
           if(roomStatus.lastDay) {
             isCheckOutDay = true
           }
-          return b
+          let newBooking = b
+          newBooking.avail = roomStatus.avail;
+          newBooking.lastDay = roomStatus.lastDay;
+          return newBooking
         } 
       }
     });
     if(findBooking && findBooking[0]) {
       if(isCheckOutDay) {
-        return {backgroundColor: 'orange', status: 2, book: findBooking[0]}
+        return {backgroundColor: 'orange', status: 2, book: findBooking}
       } else {
-        return {backgroundColor: 'red', status: 0, book: findBooking[0]}
+        return {backgroundColor: 'red', status: 0, book: findBooking}
       }
     } else {
-      return {backgroundColor: 'green', status: 1, book: {}}
+      return {backgroundColor: 'green', status: 1, book: []}
     }
   }
 
@@ -109,6 +181,15 @@ export default class Home extends Component<Props> {
     })
   }
 
+  closeManagePopup = () => {
+    this.setState({
+      managePopup: {
+        open: false,
+        which: ''
+      }      
+    })
+  }
+
   renderHeader = () => {
     return(
       <div className='dashboard-header cursor-pointer'>
@@ -120,13 +201,16 @@ export default class Home extends Component<Props> {
   renderLeftMenu = () => {
     return(
       <div className='left-menu'>
-        <div className="left-menu-button cursor-pointer">
+        <div className="left-menu-button cursor-pointer" onClick={() => this.setState({managePopup: {open: true, which: 'report'}})}>
+            Report
+        </div>
+        <div className="left-menu-button cursor-pointer" onClick={() => this.setState({managePopup: {open: true, which: 'rooms'}})}>
             Manage Rooms
         </div>
-        <div className="left-menu-button cursor-pointer">
+        <div className="left-menu-button cursor-pointer" onClick={() => this.setState({managePopup: {open: true, which: 'users'}})}>
             Manage Users
         </div>
-        <div className="left-menu-button cursor-pointer" >
+        <div className="left-menu-button cursor-pointer" onClick={this.loggingOut}>
             Logout
         </div>
       </div>
@@ -225,7 +309,6 @@ export default class Home extends Component<Props> {
             </div>
           </div>
         </div>
-        {/* <div>MERAH = BOOKED ORANGE= CHECKOUT GREEN=AVAILABLE</div> */}
       </div>
     );
   }
@@ -241,14 +324,19 @@ export default class Home extends Component<Props> {
   }
 
   render() {
-    const { isLoggedIn, users, bookingPopup } = this.state;
+    const { isLoggedIn, users, bookingPopup, alert, bookings, rooms, managePopup, print} = this.state;
     console.log(this.state)
     return (
       <React.Fragment>
       {!isLoggedIn ? 
         this.renderDashboard()
       : <LoginPage users={users} loggingIn={(user) => this.loggingIn(user)} />}
-      {bookingPopup.open ? <BookingPopup detail={bookingPopup} closeBookingPopup={this.closeBookingPopup} /> : null}
+      {bookingPopup.open ? <BookingPopup detail={bookingPopup} closeBookingPopup={this.closeBookingPopup} onPrint={(id) => this.onPrint(id)} /> : null}
+      {alert.open ? <div className="alert-box">{alert.content}
+        <div className="alert-box-close" onClick={() => this.setState({alert: {open: false, content: ''}})}>X</div>
+      </div> : null}
+      {print.open ? <PrintArea bookings={bookings} rooms={rooms} print={print} /> : null}
+      {managePopup.open && <Manage users={users} bookings={bookings} rooms={rooms} managePopup={managePopup} closeManagePopup={this.closeManagePopup}/>}
       </React.Fragment>
     );
   }

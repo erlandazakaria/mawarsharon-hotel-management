@@ -9,6 +9,7 @@
     grid-template-rows: repeat(7, 1fr);
     grid-auto-flow: row;
     border: 1px solid blue;
+    color: black;
 }
 
 .bodywrapper {
@@ -33,4 +34,10 @@
     line-height: 25px;
     border-radius: 25px;
     color: rgba(255, 255, 255, 0.8)
+}
+
+@media print {
+    .login-container {
+        display: none;
+    }
 }

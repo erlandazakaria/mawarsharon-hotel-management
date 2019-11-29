@@ -131,6 +131,17 @@
     margin-left: 10px;
 }
 
+.booking-popup-content-checkin-button-delete {
+    background-color: #f40202;
+    display: inline-block;
+    width: auto;
+    padding: 5px 20px;
+    border-radius: 15px;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    margin-left: 10px;
+}
+
 /* checkout */
 
 .booking-popup-content-checkout {
@@ -198,4 +209,36 @@
     color: rgba(255, 255, 255, 0.8);
     cursor: pointer;
     margin-left: 10px;
+}
+
+.booking-popup-content-checkout-button-delete {
+    background-color: #f40202;
+    display: inline-block;
+    width: auto;
+    padding: 5px 20px;
+    border-radius: 15px;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+::-webkit-input-placeholder { /* Edge */
+    color: orange;
+  }
+  
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: orange;
+}
+
+::placeholder {
+    color: orange;
+}
+
+@media print {
+    .booking-popup-overlay {
+        display: none;
+    }
+    .booking-popup-container {
+        display: none;
+    }
 }

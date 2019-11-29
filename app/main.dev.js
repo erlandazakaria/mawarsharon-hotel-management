@@ -15,6 +15,9 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import Connection from './containers/Connection';
+const path = require("path");
+var pdf = require("pdf-creator-node");
+var fs = require('fs');
 
 export default class AppUpdater {
   constructor() {
@@ -117,3 +120,107 @@ ipcMain.on('select-all-message', (event, arg) => {
     event.sender.send('select-all-reply', rows)
   })
 });
+
+ipcMain.on('edit-booking', (event, arg) => {
+  let sql = "UPDATE bookings SET room_price=?, booking_nik=?, booking_name=?, booking_address=?, booking_phone=?, booking_checkin=?, booking_checkout=?, booking_addons=?, booking_total=? WHERE id_book=?";
+  let selectAllPromise = new Promise(function(resolve, reject){
+    Connection.query(sql, [arg.room_price, arg.booking_nik, arg.booking_name, arg.booking_address, arg.booking_phone, arg.booking_checkin, arg.booking_checkout, arg.booking_addons, arg.booking_total, arg.id_book], 
+    function (error, result){
+      if(error){
+        console.log(error)
+        reject(error)
+      } else {
+        resolve(result);
+      }
+    });
+  })
+  selectAllPromise.then((result) => {
+    event.sender.send('edit-booking-reply', result)
+  })
+});
+
+ipcMain.on('insert-booking', (event, arg) => {
+  let sql = "INSERT INTO bookings SET ?"
+  let sqlFields = {
+    booking_room: arg.booking_room,
+    room_price: arg.room_price, 
+    booking_nik: arg.booking_nik, 
+    booking_name: arg.booking_name, 
+    booking_address: arg.booking_address, 
+    booking_phone: arg.booking_phone, 
+    booking_checkin: arg.booking_checkin, 
+    booking_checkout: arg.booking_checkout, 
+    booking_addons: arg.booking_addons, 
+    booking_total: arg.booking_total
+  }
+  let selectAllPromise = new Promise(function(resolve, reject){
+    Connection.query(sql, sqlFields, 
+    function (error, result, fields){
+      if(error){
+        console.log(error)
+        reject(error)
+      } else {
+        resolve(result);
+      }
+    });
+  })
+  selectAllPromise.then((result) => {
+    event.sender.send('insert-booking-reply', result)
+  })
+});
+
+ipcMain.on('delete-booking', (event, arg) => {
+  let sql = "DELETE FROM bookings WHERE id_book=?";
+  let selectAllPromise = new Promise(function(resolve, reject){
+    Connection.query(sql, [arg], 
+    function (error, result){
+      if(error){
+        console.log(error)
+        reject(error)
+      } else {
+        resolve(result);
+      }
+    });
+  })
+  selectAllPromise.then((result) => {
+    event.sender.send('delete-booking-reply', result)
+  })
+});
+
+ipcMain.on('generate-pdf', (event, arg) => {
+  var html = fs.readFileSync(path.resolve(__dirname, "./pdf-template/template.html"), 'utf8');
+  var options = {
+    format: "A4",
+    orientation: "portrait",
+    border: "10mm"
+  };
+  // var bookings = [
+  //   {
+  //       name:"Shyam",
+  //       age:"26"
+  //   },
+  //   {
+  //       name:"Navjot",
+  //       age:"26"
+  //   },
+  //   {
+  //       name:"Vitthal",
+  //       age:"26"
+  //   }
+  // ]
+  var document = {
+      html: html,
+      data: {
+          bookings: arg
+      },
+      path: "./output.pdf"
+  };
+  pdf.create(document, options)
+    .then(res => {
+        console.log(res)
+    })
+    .catch(error => {
+        console.error(error)
+    });
+});
+
